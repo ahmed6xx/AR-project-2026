@@ -20,9 +20,49 @@ public class BuildingState : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1)) SetState("Normal");
-        if (Input.GetKeyDown(KeyCode.Alpha2)) SetState("Incident");
-        if (Input.GetKeyDown(KeyCode.Alpha3)) SetState("Resolved");
+        // Debug: Check if Update is even being called
+        if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.E))
+        {
+            Debug.Log("Update running - key detected");
+        }
+
+        // Debug: Check if this script is still active
+        if (!enabled)
+        {
+            Debug.LogWarning("BuildingState Update called but script is disabled");
+            return;
+        }
+
+        // Debug: Check if GameObject is active
+        if (!gameObject.activeInHierarchy)
+        {
+            Debug.LogWarning("BuildingState: GameObject is inactive in hierarchy!");
+            return;
+        }
+
+        // Debug: Check if renderer still exists
+        if (buildingRenderer == null)
+        {
+            Debug.LogError("BuildingState: buildingRenderer is null!");
+            return;
+        }
+
+        // Debug: Log input detection
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Debug.Log("Q pressed");
+            SetState("Normal");
+        }
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            Debug.Log("W pressed");
+            SetState("Incident");
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            Debug.Log("E pressed");
+            SetState("Resolved");
+        }
     }
 
     public void SetState(string state)
