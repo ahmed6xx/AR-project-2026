@@ -1,0 +1,117 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4455631416278502283
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4455631416278800299}
+  - component: {fileID: 4455631416279570315}
+  - component: {fileID: 4455631416280700235}
+  - component: {fileID: 6463997712017160904}
+  m_Layer: 0
+  m_Name: House1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4455631416278800299
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4455631416278502283}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.7071068, z: 0.7071068, w: 0}
+  m_LocalPosition: {x: -0.002, y: 0.0545, z: 0.022400001}
+  m_LocalScale: {x: 0.0075424225, y: 0.007542423, z: 0.007542423}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 90, z: 90}
+--- !u!33 &4455631416279570315
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4455631416278502283}
+  m_Mesh: {fileID: 4300002, guid: c3d67df85cdf2904db4b914ddd22ad38, type: 3}
+--- !u!23 &4455631416280700235
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4455631416278502283}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 6747040675551249573, guid: c3d67df85cdf2904db4b914ddd22ad38, type: 3}
+  - {fileID: -9173357826185534750, guid: c3d67df85cdf2904db4b914ddd22ad38, type: 3}
+  - {fileID: 3012265122521949741, guid: c3d67df85cdf2904db4b914ddd22ad38, type: 3}
+  - {fileID: -972165515570075513, guid: c3d67df85cdf2904db4b914ddd22ad38, type: 3}
+  - {fileID: -1139062741835666493, guid: c3d67df85cdf2904db4b914ddd22ad38, type: 3}
+  - {fileID: -5655987124796080749, guid: c3d67df85cdf2904db4b914ddd22ad38, type: 3}
+  - {fileID: -5054910294993237172, guid: c3d67df85cdf2904db4b914ddd22ad38, type: 3}
+  - {fileID: -7767229334301200681, guid: c3d67df85cdf2904db4b914ddd22ad38, type: 3}
+  - {fileID: -4019796555995009995, guid: c3d67df85cdf2904db4b914ddd22ad38, type: 3}
+  - {fileID: 1530670667161508521, guid: c3d67df85cdf2904db4b914ddd22ad38, type: 3}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &6463997712017160904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4455631416278502283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f142ed8979c337945bc91ecc2d090e1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BuildingState
+  normalMaterial: {fileID: 2100000, guid: caa4964562fad3e46a1b4a25a7bfef45, type: 2}
+  incidentMaterial: {fileID: 2100000, guid: 0dd557b6265cc4c4a9f7cbc50f8c1fbf, type: 2}
+  resolvedMaterial: {fileID: 2100000, guid: 4441cdf15a39315459600b51910acef9, type: 2}
