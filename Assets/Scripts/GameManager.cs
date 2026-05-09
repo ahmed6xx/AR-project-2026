@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,18 +12,27 @@ public class GameManager : MonoBehaviour
     [Header("Particles")]
     public GameObject fireParticle;
     public GameObject electricityParticle;
+    public GameObject floodParticle;
 
-    [Header("Repair Button")]
+    [Header("Notification")]
+    public TMP_Text notificationText;
     public GameObject repairButtonCanvas;
 
     private int currentIncident = 0;
     private GameObject spawnedFire;
     private GameObject spawnedElectricity;
+    private GameObject spawnedFlood;
 
     void Start()
     {
         repairButtonCanvas.SetActive(false);
         Invoke(nameof(TriggerIncident1), 2f);
+    }
+
+    void SetNotification(string message)
+    {
+        if (notificationText != null)
+            notificationText.text = message;
     }
 
     // ─── REPAIR ───────────────────────────────────────────────────
@@ -48,6 +58,7 @@ public class GameManager : MonoBehaviour
         spawnedFire.transform.localScale = new Vector3(0.00825986f, 0.00825986f, 0.00825986f);
 
         repairButtonCanvas.SetActive(true);
+        SetNotification("Fire at Grid Building!\nClick Repair to fix.");
         Debug.Log("Incident 1: Fire on Grid Building");
     }
 
@@ -55,6 +66,7 @@ public class GameManager : MonoBehaviour
     {
         if (spawnedFire != null) Destroy(spawnedFire);
         repairButtonCanvas.SetActive(false);
+        SetNotification("Incident 1 Resolved!");
         Debug.Log("Incident 1 resolved!");
         Invoke(nameof(TriggerIncident2), 2f);
     }
@@ -72,6 +84,7 @@ public class GameManager : MonoBehaviour
         spawnedElectricity.transform.localScale = new Vector3(3f, 3f, 3f);
 
         repairButtonCanvas.SetActive(true);
+        SetNotification("Electricity Failure at Slope Building!\nClick Repair to fix.");
         Debug.Log("Incident 2: Electricity on Slope Building");
     }
 
@@ -79,6 +92,7 @@ public class GameManager : MonoBehaviour
     {
         if (spawnedElectricity != null) Destroy(spawnedElectricity);
         repairButtonCanvas.SetActive(false);
+        SetNotification("Incident 2 Resolved!");
         Debug.Log("Incident 2 resolved!");
         Invoke(nameof(TriggerIncident3), 2f);
     }
@@ -88,13 +102,23 @@ public class GameManager : MonoBehaviour
     void TriggerIncident3()
     {
         currentIncident = 3;
+
+        spawnedFlood = Instantiate(floodParticle);
+        spawnedFlood.transform.SetParent(eco_Building_Terrace.transform);
+        spawnedFlood.transform.localPosition = new Vector3(0f, 20.3f, 7f);
+        spawnedFlood.transform.localRotation = Quaternion.Euler(-90f, 0f, 0f);
+        spawnedFlood.transform.localScale = new Vector3(0.003f, 0.003f, 0.003f);
+
         repairButtonCanvas.SetActive(true);
-        Debug.Log("Incident 3: Terrace Building");
+        SetNotification("Flood at Terrace Building!\nClick Repair to fix.");
+        Debug.Log("Incident 3: Flood on Terrace Building");
     }
 
     void ResolveIncident3()
     {
+        if (spawnedFlood != null) Destroy(spawnedFlood);
         repairButtonCanvas.SetActive(false);
+        SetNotification("All Incidents Resolved! City is Safe.");
         Debug.Log("All incidents resolved!");
         // TODO: victory screen
     }

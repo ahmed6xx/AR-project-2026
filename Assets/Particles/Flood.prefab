@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8446152120368686650}
   - component: {fileID: 4338222945658516786}
   m_Layer: 0
-  m_Name: floodoint
+  m_Name: Flood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -116,7 +116,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 3
+      scalar: 1
       minScalar: 5
       maxCurve:
         serializedVersion: 2
