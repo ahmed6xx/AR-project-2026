@@ -15,9 +15,10 @@ public class GameManager : MonoBehaviour
     public GameObject floodParticle;
 
     [Header("Sounds")]
-    public AudioClip fireSound;
-    public AudioClip electricitySound;
-    public AudioClip floodSound;
+public AudioClip fireSound;
+public AudioClip electricitySound;
+public AudioClip floodSound;
+public AudioClip buttonClickSound; 
 
     [Header("Notification")]
     public TMP_Text notificationText;
@@ -28,17 +29,18 @@ public class GameManager : MonoBehaviour
     private GameObject spawnedElectricity;
     private GameObject spawnedFlood;
 
-    private AudioSource fireAudio;
-    private AudioSource electricityAudio;
-    private AudioSource floodAudio;
+   private AudioSource fireAudio;
+private AudioSource electricityAudio;
+private AudioSource floodAudio;
+private AudioSource buttonAudio;
 
     void Start()
     {
         // Create dedicated AudioSources on this GameObject
         fireAudio        = CreateLoopingAudio(fireSound);
-        electricityAudio = CreateLoopingAudio(electricitySound);
-        floodAudio       = CreateLoopingAudio(floodSound);
-
+electricityAudio = CreateLoopingAudio(electricitySound);
+floodAudio       = CreateLoopingAudio(floodSound);
+buttonAudio      = CreateLoopingAudio(buttonClickSound);
         repairButtonCanvas.SetActive(false);
         Invoke(nameof(TriggerIncident1), 2f);
     }
@@ -62,13 +64,13 @@ public class GameManager : MonoBehaviour
     // ─── REPAIR ───────────────────────────────────────────────────
 
     public void OnRepairClicked()
-    {
-        Debug.Log("Repair clicked! Current incident: " + currentIncident);
-        if (currentIncident == 1) ResolveIncident1();
-        else if (currentIncident == 2) ResolveIncident2();
-        else if (currentIncident == 3) ResolveIncident3();
-    }
-
+{
+    buttonAudio.PlayOneShot(buttonClickSound); // <-- add this line at the top
+    Debug.Log("Repair clicked! Current incident: " + currentIncident);
+    if (currentIncident == 1) ResolveIncident1();
+    else if (currentIncident == 2) ResolveIncident2();
+    else if (currentIncident == 3) ResolveIncident3();
+}
     // ─── INCIDENT 1 ───────────────────────────────────────────────
 
     void TriggerIncident1()
