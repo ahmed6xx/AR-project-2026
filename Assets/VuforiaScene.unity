@@ -161,7 +161,8 @@ MonoBehaviour:
   floodParticle: {fileID: 5055684499835887638, guid: 89ec36f39d98d2a4392ae2f671ff8901, type: 3}
   fireSound: {fileID: 8300000, guid: 2e81954501e7496409a5fc858f0b3bf1, type: 3}
   electricitySound: {fileID: 8300000, guid: dcc373d3d960faf4daaf222202949c51, type: 3}
-  floodSound: {fileID: 8300000, guid: 178c7a24b86245e428ce93b94847c0d1, type: 3}
+  floodSound: {fileID: 8300000, guid: 723f19162d9b89046b9ad2c1a3c1721e, type: 3}
+  buttonClickSound: {fileID: 8300000, guid: 0f4e90675f607ff438ab649e38505cac, type: 3}
   notificationText: {fileID: 1100902335}
   repairButtonCanvas: {fileID: 1183425338}
 --- !u!4 &249087621
