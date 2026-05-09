@@ -14,6 +14,11 @@ public class GameManager : MonoBehaviour
     public GameObject electricityParticle;
     public GameObject floodParticle;
 
+    [Header("Sounds")]
+    public AudioClip fireSound;
+    public AudioClip electricitySound;
+    public AudioClip floodSound;
+
     [Header("Notification")]
     public TMP_Text notificationText;
     public GameObject repairButtonCanvas;
@@ -23,10 +28,29 @@ public class GameManager : MonoBehaviour
     private GameObject spawnedElectricity;
     private GameObject spawnedFlood;
 
+    private AudioSource fireAudio;
+    private AudioSource electricityAudio;
+    private AudioSource floodAudio;
+
     void Start()
     {
+        // Create dedicated AudioSources on this GameObject
+        fireAudio        = CreateLoopingAudio(fireSound);
+        electricityAudio = CreateLoopingAudio(electricitySound);
+        floodAudio       = CreateLoopingAudio(floodSound);
+
         repairButtonCanvas.SetActive(false);
         Invoke(nameof(TriggerIncident1), 2f);
+    }
+
+    AudioSource CreateLoopingAudio(AudioClip clip)
+    {
+        AudioSource src = gameObject.AddComponent<AudioSource>();
+        src.clip        = clip;
+        src.loop        = true;
+        src.playOnAwake = false;
+        src.spatialBlend = 0f; // 2D — change to 1f if you want 3D positional audio
+        return src;
     }
 
     void SetNotification(string message)
@@ -55,8 +79,9 @@ public class GameManager : MonoBehaviour
         spawnedFire.transform.SetParent(eco_Building_Grid.transform);
         spawnedFire.transform.localPosition = new Vector3(-0.2f, -1.2f, -8.9f);
         spawnedFire.transform.localRotation = Quaternion.Euler(-89.98f, 0f, -92.097f);
-        spawnedFire.transform.localScale = new Vector3(0.00825986f, 0.00825986f, 0.00825986f);
+        spawnedFire.transform.localScale    = new Vector3(0.00825986f, 0.00825986f, 0.00825986f);
 
+        fireAudio.Play();
         repairButtonCanvas.SetActive(true);
         SetNotification("Fire at Grid Building!\nClick Repair to fix.");
         Debug.Log("Incident 1: Fire on Grid Building");
@@ -65,6 +90,7 @@ public class GameManager : MonoBehaviour
     void ResolveIncident1()
     {
         if (spawnedFire != null) Destroy(spawnedFire);
+        fireAudio.Stop();
         repairButtonCanvas.SetActive(false);
         SetNotification("Incident 1 Resolved!");
         Debug.Log("Incident 1 resolved!");
@@ -81,8 +107,9 @@ public class GameManager : MonoBehaviour
         spawnedElectricity.transform.SetParent(eco_Building_Slope.transform);
         spawnedElectricity.transform.localPosition = new Vector3(-0.7f, 22.2f, -1.1f);
         spawnedElectricity.transform.localRotation = Quaternion.Euler(-90f, 0f, 0f);
-        spawnedElectricity.transform.localScale = new Vector3(3f, 3f, 3f);
+        spawnedElectricity.transform.localScale    = new Vector3(3f, 3f, 3f);
 
+        electricityAudio.Play();
         repairButtonCanvas.SetActive(true);
         SetNotification("Electricity Failure at Slope Building!\nClick Repair to fix.");
         Debug.Log("Incident 2: Electricity on Slope Building");
@@ -91,6 +118,7 @@ public class GameManager : MonoBehaviour
     void ResolveIncident2()
     {
         if (spawnedElectricity != null) Destroy(spawnedElectricity);
+        electricityAudio.Stop();
         repairButtonCanvas.SetActive(false);
         SetNotification("Incident 2 Resolved!");
         Debug.Log("Incident 2 resolved!");
@@ -107,8 +135,9 @@ public class GameManager : MonoBehaviour
         spawnedFlood.transform.SetParent(eco_Building_Terrace.transform);
         spawnedFlood.transform.localPosition = new Vector3(0f, 20.3f, 7f);
         spawnedFlood.transform.localRotation = Quaternion.Euler(-90f, 0f, 0f);
-        spawnedFlood.transform.localScale = new Vector3(0.003f, 0.003f, 0.003f);
+        spawnedFlood.transform.localScale    = new Vector3(0.003f, 0.003f, 0.003f);
 
+        floodAudio.Play();
         repairButtonCanvas.SetActive(true);
         SetNotification("Flood at Terrace Building!\nClick Repair to fix.");
         Debug.Log("Incident 3: Flood on Terrace Building");
@@ -117,6 +146,7 @@ public class GameManager : MonoBehaviour
     void ResolveIncident3()
     {
         if (spawnedFlood != null) Destroy(spawnedFlood);
+        floodAudio.Stop();
         repairButtonCanvas.SetActive(false);
         SetNotification("All Incidents Resolved! City is Safe.");
         Debug.Log("All incidents resolved!");
