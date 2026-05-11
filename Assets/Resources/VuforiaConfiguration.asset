@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: VuforiaConfiguration
   m_EditorClassIdentifier: Vuforia.Unity.Engine.dll::Vuforia.VuforiaConfiguration
   vuforia:
-    vuforiaLicenseKey: AchZ8wz/////AAABmQhPMtc7KEZMiXHVNXV3gVc2kTJCSF/SMj9XZPiBT2PsiD8WHziB/1+/cV0CSjJfzmHvrcax+SuUzfahy4hqQPsdjtbbmVk32R+M0m23gEZHDjJ9y+5e4T1smfCwsXlRGXaZwahEXlwHVntNwrwfPTc20uDsGczeQKrkvCiaBXgMc2we1IuJRdyCS39A4mmTAX5QONdMaHY9vhKYGxYqDbDS6AE3X4AIDoi8LGQsKbx1ma0OMqWLHSBA0tssNnVlflDSbRJAP42y71P0tNvScKvdIVBRImcfB9ZNwtEJIBz7OWFp+C/+LbJBKfzCV4CN169I11HEWvCMMhJTMX6hiWu+1fUXJfN39RddU9vP/7ps
+    vuforiaLicenseKey: AdQ7gxj/////AAABmdNF7DkyiU1Pg8k1RYq1rbBVz5UHeNE6124aLgpLwvijpx5o5N80QbbMOIGfoKKg5vrazM8MHsuu1ly+meA14MYCZ9hZZQ91mAe0Z8RwLNEOtroQcXBEik2GN3Ahx6lr0uZMGUUAOthCJ1GLe8YtuAz0lBM7HBeT5/1LnyGL6kT6lirW1mVnDQ7H+eF3NhppWUon+iBc/qjxYb6sGol96m5RGK+uRYJ2cxkGvPLVSvw7BishogNmKUr5xn95I/lOjE77SFmlQEa9n0nfWIrBXSCfsdwiQLgHt5gR2Gzx/tRqVW5j1bYTtk8IVBK4CfhAV1v1K20IaoxT/e7eFrms094YoBd81UTKP5Ahb/OXaZVP
     ufoLicenseKey: QVhiM0Y1Ly8vLy8vQUFBQUtPbnFIeHJFSGs1N3VrMlg4U050eVBzK2pkOFZxMDhrazlwYjBsYS9aZUIxQlV1ckZWcWt0ZllSQWpnT2tIRlY2VzdOMDRTRjNYRUhmbTF5L1BnYlB4eWdHWEF6RUNheXowc3dyNVNYa2ozdERuRjhka1FpOHRscHdkMDcrcEJEY1FjTjNJcUM1bEgwOTYzQkdZdjRsQStRb0hSQU9nRGthelp5TlY0WHVwWU9EaE05NWw5bXAzbnBDMjM5MWZBWXBFdEdiL2loTDNab3N4b25ZblhjK1JtSS9wLzRoTDIwVGhmTXR6WFJNYkpUTXZLZzJoQ0N0TEJXNEptZ0pSOUtSdStzQWM3QjVNOWFFMGVHQ1dUT1VRSUUweEpiZC9ZL2cvS29iNDhBRXdQOGFwbWR5NmRWU0FHU2psVzRZY2FEU2Zud3J1ZHhucVNmSUZiajNTUnIzM0lKVlFIaW1rL0oyOGNFeDdyekcySXg=
     delayedInitialization: 0
     cameraFocusModeSetting: 2
@@ -44,7 +44,7 @@ MonoBehaviour:
     autoStartTracker: 1
     arcoreRequirement: 1
     autoImportArcore: 1
-    thirdPartyARCoreClientDetected: 0
+    thirdPartyARCoreClientDetected: 1
   playmode:
     mRecordingPath: 
     playModeType: 0

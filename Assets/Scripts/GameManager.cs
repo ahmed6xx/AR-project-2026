@@ -15,10 +15,10 @@ public class GameManager : MonoBehaviour
     public GameObject floodParticle;
 
     [Header("Sounds")]
-public AudioClip fireSound;
-public AudioClip electricitySound;
-public AudioClip floodSound;
-public AudioClip buttonClickSound; 
+    public AudioClip fireSound;
+    public AudioClip electricitySound;
+    public AudioClip floodSound;
+    public AudioClip buttonClickSound;
 
     [Header("Notification")]
     public TMP_Text notificationText;
@@ -29,18 +29,17 @@ public AudioClip buttonClickSound;
     private GameObject spawnedElectricity;
     private GameObject spawnedFlood;
 
-   private AudioSource fireAudio;
-private AudioSource electricityAudio;
-private AudioSource floodAudio;
-private AudioSource buttonAudio;
+    private AudioSource fireAudio;
+    private AudioSource electricityAudio;
+    private AudioSource floodAudio;
+    private AudioSource buttonAudio;
 
     void Start()
     {
-        // Create dedicated AudioSources on this GameObject
         fireAudio        = CreateLoopingAudio(fireSound);
-electricityAudio = CreateLoopingAudio(electricitySound);
-floodAudio       = CreateLoopingAudio(floodSound);
-buttonAudio      = CreateLoopingAudio(buttonClickSound);
+        electricityAudio = CreateLoopingAudio(electricitySound);
+        floodAudio       = CreateLoopingAudio(floodSound);
+        buttonAudio      = CreateLoopingAudio(buttonClickSound);
         repairButtonCanvas.SetActive(false);
         Invoke(nameof(TriggerIncident1), 2f);
     }
@@ -48,10 +47,10 @@ buttonAudio      = CreateLoopingAudio(buttonClickSound);
     AudioSource CreateLoopingAudio(AudioClip clip)
     {
         AudioSource src = gameObject.AddComponent<AudioSource>();
-        src.clip        = clip;
-        src.loop        = true;
-        src.playOnAwake = false;
-        src.spatialBlend = 0f; // 2D — change to 1f if you want 3D positional audio
+        src.clip         = clip;
+        src.loop         = true;
+        src.playOnAwake  = false;
+        src.spatialBlend = 0f;
         return src;
     }
 
@@ -64,13 +63,14 @@ buttonAudio      = CreateLoopingAudio(buttonClickSound);
     // ─── REPAIR ───────────────────────────────────────────────────
 
     public void OnRepairClicked()
-{
-    buttonAudio.PlayOneShot(buttonClickSound); // <-- add this line at the top
-    Debug.Log("Repair clicked! Current incident: " + currentIncident);
-    if (currentIncident == 1) ResolveIncident1();
-    else if (currentIncident == 2) ResolveIncident2();
-    else if (currentIncident == 3) ResolveIncident3();
-}
+    {
+        buttonAudio.PlayOneShot(buttonClickSound);
+        Debug.Log("Repair clicked! Current incident: " + currentIncident);
+        if (currentIncident == 1) ResolveIncident1();
+        else if (currentIncident == 2) ResolveIncident2();
+        else if (currentIncident == 3) ResolveIncident3();
+    }
+
     // ─── INCIDENT 1 ───────────────────────────────────────────────
 
     void TriggerIncident1()
@@ -79,7 +79,7 @@ buttonAudio      = CreateLoopingAudio(buttonClickSound);
 
         spawnedFire = Instantiate(fireParticle);
         spawnedFire.transform.SetParent(eco_Building_Grid.transform);
-        spawnedFire.transform.localPosition = new Vector3(-0.2f, -1.2f, -8.9f);
+        spawnedFire.transform.localPosition = Vector3.zero;
         spawnedFire.transform.localRotation = Quaternion.Euler(-89.98f, 0f, -92.097f);
         spawnedFire.transform.localScale    = new Vector3(0.00825986f, 0.00825986f, 0.00825986f);
 
