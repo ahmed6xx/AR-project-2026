@@ -17,6 +17,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1320267724835266437, guid: 20735cc0500d6e34d8490e14f4b21eb7, type: 3}
+      propertyPath: LightsModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1320267724835266437, guid: 20735cc0500d6e34d8490e14f4b21eb7, type: 3}
       propertyPath: ShapeModule.radius.value
       value: 1.5255955
       objectReference: {fileID: 0}

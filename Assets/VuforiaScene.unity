@@ -1880,9 +1880,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d763a42da41b96540a29eb2744ffa65b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  eco_Building_Grid: {fileID: 575318995}
-  eco_Building_Slope: {fileID: 973670974}
-  eco_Building_Terrace: {fileID: 334591313}
+  buildings:
+  - {fileID: 973670974}
+  - {fileID: 575318995}
+  - {fileID: 874277594}
+  - {fileID: 780223803}
+  - {fileID: 1736221905}
+  - {fileID: 334591313}
   fireParticle: {fileID: 6310183648872513785, guid: 6866d491c4128f54b98db57b54dea678, type: 3}
   electricityParticle: {fileID: 5636500364923434750, guid: 9d414deb48909304a9fcc35872eaf7d2, type: 3}
   floodParticle: {fileID: 5055684499835887638, guid: 89ec36f39d98d2a4392ae2f671ff8901, type: 3}
@@ -1892,6 +1896,7 @@ MonoBehaviour:
   buttonClickSound: {fileID: 8300000, guid: 0f4e90675f607ff438ab649e38505cac, type: 3}
   notificationText: {fileID: 1100902335}
   repairButtonCanvas: {fileID: 1183425338}
+  imageTarget: {fileID: 1143550993}
 --- !u!4 &249087621
 Transform:
   m_ObjectHideFlags: 0
@@ -6114,6 +6119,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6803015339945333606, guid: 835d09747e55e49458811c8ca40910d2, type: 3}
   m_PrefabInstance: {fileID: 765867294}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &780223803 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4724550707367194761, guid: 54bb0c6cea2adb2408f37dd1ba7a7dd7, type: 3}
+  m_PrefabInstance: {fileID: 937344420}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &783209633
 GameObject:
   m_ObjectHideFlags: 0
@@ -7303,6 +7313,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 7603195949319548583, guid: dd36400a9b587374c8784011cfc70a09, type: 3}
   m_PrefabInstance: {fileID: 868496895}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &874277594 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4724550707367194761, guid: 54bb0c6cea2adb2408f37dd1ba7a7dd7, type: 3}
+  m_PrefabInstance: {fileID: 1375083709}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &874408465
 PrefabInstance:
@@ -13962,6 +13977,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 4618557416055468906, guid: 211ee66cf2cc2f444b0ad19bae4e999a, type: 3}
   m_PrefabInstance: {fileID: 1734164347}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1736221905 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5781593798904203336, guid: 5317394648af5b94eaea206e07e79629, type: 3}
+  m_PrefabInstance: {fileID: 967207584}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1754763570
 PrefabInstance:
