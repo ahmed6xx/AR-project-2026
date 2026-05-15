@@ -1837,6 +1837,8 @@ MonoBehaviour:
   electricitySound: {fileID: 8300000, guid: dcc373d3d960faf4daaf222202949c51, type: 3}
   floodSound: {fileID: 8300000, guid: 723f19162d9b89046b9ad2c1a3c1721e, type: 3}
   buttonClickSound: {fileID: 8300000, guid: 0f4e90675f607ff438ab649e38505cac, type: 3}
+  ambianceSound: {fileID: 8300000, guid: 4a4b3172b408bce44b5c93ada68ae5b6, type: 3}
+  ambianceVolume: 0.3
   notificationText: {fileID: 1100902335}
   repairButtonCanvas: {fileID: 1183425338}
   imageTarget: {fileID: 1143550993}

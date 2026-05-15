@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
     public AudioClip electricitySound;
     public AudioClip floodSound;
     public AudioClip buttonClickSound;
+    public AudioClip ambianceSound;
+    [Range(0f, 1f)] public float ambianceVolume = 0.3f;
 
     [Header("UI")]
     public TMP_Text notificationText;
@@ -44,6 +46,7 @@ public class GameManager : MonoBehaviour
     private AudioSource electricityAudio;
     private AudioSource floodAudio;
     private AudioSource buttonAudio;
+    private AudioSource ambianceAudio;
 
     private bool markerDetected = false;
 
@@ -53,6 +56,9 @@ public class GameManager : MonoBehaviour
         electricityAudio = CreateAudio(electricitySound);
         floodAudio = CreateAudio(floodSound);
         buttonAudio = CreateAudio(buttonClickSound);
+        ambianceAudio = CreateAudio(ambianceSound);
+        ambianceAudio.loop = true;
+        ambianceAudio.volume = ambianceVolume;
 
         repairButtonCanvas.SetActive(false);
         SetNotification("Scan the marker to begin...");
@@ -68,6 +74,7 @@ public class GameManager : MonoBehaviour
         {
             markerDetected = true;
             SetNotification("City loaded! Monitoring...");
+            ambianceAudio.Play();
             Invoke(nameof(TriggerRandomIncident), 2f);
         }
     }
@@ -218,5 +225,6 @@ public class GameManager : MonoBehaviour
     {
         if (Keyboard.current == null) return;
         if (Keyboard.current.rKey.wasPressedThisFrame) OnRepairClicked();
+        if (ambianceAudio != null) ambianceAudio.volume = ambianceVolume;
     }
 }
