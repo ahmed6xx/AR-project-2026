@@ -7,11 +7,17 @@ public class GameManager : MonoBehaviour
 {
     [Header("Buildings (6 total)")]
     public GameObject[] buildings; // Drag all 6 buildings here
+    public float Icon_height = 0.015f;
 
     [Header("Particles (one prefab per incident type)")]
     public GameObject fireParticle;
     public GameObject electricityParticle;
     public GameObject floodParticle;
+
+    [Header("Icons (one prefab per incident type)")]
+    public GameObject fireIcon;
+    public GameObject electricityIcon;
+    public GameObject floodIcon;
 
     [Header("Sounds")]
     public AudioClip fireSound;
@@ -29,6 +35,7 @@ public class GameManager : MonoBehaviour
     // Internal
     private int currentIncident = 0;
     private GameObject spawnedParticle;
+    private GameObject spawnedIcon;          // ← tracks the active icon
     private GameObject currentBuilding;
     private string currentIncidentType;
 
@@ -50,7 +57,6 @@ public class GameManager : MonoBehaviour
         repairButtonCanvas.SetActive(false);
         SetNotification("Scan the marker to begin...");
 
-        // Listen for marker detection
         if (imageTarget != null)
             imageTarget.OnTargetStatusChanged += OnTargetStatusChanged;
     }
@@ -86,28 +92,33 @@ public class GameManager : MonoBehaviour
         electricityAudio.Stop();
         floodAudio.Stop();
 
-        // Spawn correct particle
-        GameObject prefab = null;
+        // Pick correct prefabs and audio
+        GameObject particlePrefab = null;
+        GameObject iconPrefab = null;
+
         switch (currentIncidentType)
         {
             case "Fire":
-                prefab = fireParticle;
-                currentAudio = fireAudio;
+                particlePrefab = fireParticle;
+                iconPrefab     = fireIcon;
+                currentAudio   = fireAudio;
                 break;
             case "Electricity":
-                prefab = electricityParticle;
-                currentAudio = electricityAudio;
+                particlePrefab = electricityParticle;
+                iconPrefab     = electricityIcon;
+                currentAudio   = electricityAudio;
                 break;
             case "Flood":
-                prefab = floodParticle;
-                currentAudio = floodAudio;
+                particlePrefab = floodParticle;
+                iconPrefab     = floodIcon;
+                currentAudio   = floodAudio;
                 break;
         }
 
+        // ── Spawn particle ──
         if (spawnedParticle != null) Destroy(spawnedParticle);
 
-        spawnedParticle = Instantiate(prefab);
-        spawnedParticle.transform.SetParent(currentBuilding.transform);
+        spawnedParticle = Instantiate(particlePrefab, currentBuilding.transform);
 
         switch (currentIncidentType)
         {
@@ -128,6 +139,37 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
+        // ── Spawn icon ──
+        if (spawnedIcon != null) Destroy(spawnedIcon);
+
+        if (iconPrefab != null)
+        {
+            // Parent to ImageTarget so icon follows the marker with the camera
+            Transform targetParent = imageTarget != null ? imageTarget.transform : null;
+            spawnedIcon = Instantiate(iconPrefab, targetParent);
+
+            // Convert building world pos into ImageTarget local space
+            Vector3 buildingLocalPos = targetParent != null
+                ? targetParent.InverseTransformPoint(currentBuilding.transform.position)
+                : currentBuilding.transform.position;
+
+            // Use only the building's own renderer to avoid picking up spawned particle bounds
+            Renderer buildingRenderer = currentBuilding.GetComponent<Renderer>();
+            float topY = buildingLocalPos.y;
+            if (buildingRenderer != null)
+            {
+                float localTop = targetParent != null
+                    ? targetParent.InverseTransformPoint(new Vector3(0f, buildingRenderer.bounds.max.y, 0f)).y
+                    : buildingRenderer.bounds.max.y;
+                topY = localTop;
+            }
+
+            spawnedIcon.transform.localPosition = new Vector3(buildingLocalPos.x, topY + Icon_height, buildingLocalPos.z);
+            spawnedIcon.transform.localRotation = Quaternion.Euler(90f, 0f, 180f);
+            spawnedIcon.transform.localScale    = new Vector3(0.00502276f, 0.0001f, 0.00502276f);
+            Debug.Log("Icon local pos " + spawnedIcon.transform.localPosition + " world pos " + spawnedIcon.transform.position);
+        }
+
         currentAudio.Play();
         repairButtonCanvas.SetActive(true);
         SetNotification(currentIncidentType + " at " + currentBuilding.name + "!\nClick Repair to fix.");
@@ -141,12 +183,13 @@ public class GameManager : MonoBehaviour
         buttonAudio.PlayOneShot(buttonClickSound);
 
         if (spawnedParticle != null) Destroy(spawnedParticle);
+        if (spawnedIcon != null)     Destroy(spawnedIcon);      // ← destroy icon too
+
         currentAudio.Stop();
         repairButtonCanvas.SetActive(false);
         SetNotification(currentIncidentType + " at " + currentBuilding.name + " Resolved!");
         Debug.Log("Incident " + currentIncident + " resolved!");
 
-        // Trigger next incident after random delay between 3 and 8 seconds
         float delay = Random.Range(3f, 8f);
         Invoke(nameof(TriggerRandomIncident), delay);
     }
