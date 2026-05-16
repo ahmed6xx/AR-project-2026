@@ -22,24 +22,29 @@ public class GameManager : MonoBehaviour
     public GameObject fireIcon;
     public GameObject electricityIcon;
     public GameObject floodIcon;
+    public GameObject carCrashIcon;
 
     [Header("Sounds")]
     public AudioClip fireSound;
     public AudioClip electricitySound;
     public AudioClip floodSound;
     public AudioClip buttonClickSound;
+    public AudioClip carCrashSound;
     public AudioClip ambianceSound;
     [Range(0f, 1f)] public float ambianceVolume = 0.3f;
 
     [Header("UI")]
     public TMP_Text notificationText;
     public GameObject repairButtonCanvas;
+    public TMP_Text incidentTypeText;
+    public TMP_Text solvedCountText;
 
     [Header("Marker")]
     public ObserverBehaviour imageTarget;
 
     // Internal
     private int currentIncident = 0;
+    private int solvedCount = 0;
     private GameObject spawnedParticle;
     private GameObject spawnedIcon;
     private GameObject currentBuilding;
@@ -51,6 +56,7 @@ public class GameManager : MonoBehaviour
     private AudioSource floodAudio;
     private AudioSource buttonAudio;
     private AudioSource ambianceAudio;
+    private AudioSource carCrashAudio;
 
     private bool markerDetected = false;
     private bool carscrashed = false;
@@ -64,11 +70,15 @@ public class GameManager : MonoBehaviour
         floodAudio = CreateAudio(floodSound);
         buttonAudio = CreateAudio(buttonClickSound);
         ambianceAudio = CreateAudio(ambianceSound);
+        carCrashAudio = CreateAudio(carCrashSound);
+        carCrashAudio.loop = false;
         ambianceAudio.loop = true;
         ambianceAudio.volume = ambianceVolume;
 
         repairButtonCanvas.SetActive(false);
         SetNotification("Scan the marker to begin...");
+        UpdateIncidentUI("--", false);
+        UpdateSolvedUI();
 
         if (imageTarget != null)
             imageTarget.OnTargetStatusChanged += OnTargetStatusChanged;
@@ -113,6 +123,39 @@ public class GameManager : MonoBehaviour
 
         SetNotification("Car breakdown on the road!\nClick Repair to fix.");
         Debug.Log("Car broke down: " + crashedCar.name);
+
+        // Play crash sound once
+        if (carCrashAudio != null && carCrashSound != null)
+            carCrashAudio.PlayOneShot(carCrashSound);
+
+        // Spawn car crash icon above the crashed car (same approach as building icons)
+        if (spawnedIcon != null) Destroy(spawnedIcon);
+        if (carCrashIcon != null)
+        {
+            Transform targetParent = imageTarget != null ? imageTarget.transform : null;
+            spawnedIcon = Instantiate(carCrashIcon, targetParent);
+
+            Vector3 carLocalPos = targetParent != null
+                ? targetParent.InverseTransformPoint(crashedCar.transform.position)
+                : crashedCar.transform.position;
+
+            Renderer carRenderer = crashedCar.GetComponent<Renderer>();
+            float carTopY = carLocalPos.y;
+            if (carRenderer != null)
+            {
+                float localTop = targetParent != null
+                    ? targetParent.InverseTransformPoint(new Vector3(0f, carRenderer.bounds.max.y, 0f)).y
+                    : carRenderer.bounds.max.y;
+                carTopY = localTop;
+            }
+
+            spawnedIcon.transform.localPosition = new Vector3(carLocalPos.x, carTopY + 0.0001f + Icon_height, carLocalPos.z);
+            spawnedIcon.transform.localRotation = Quaternion.Euler(90f, 0f, 180f);
+            spawnedIcon.transform.localScale    = new Vector3(0.00502276f, 0.0001f, 0.00502276f);
+            Debug.Log("Car icon spawned at local pos " + spawnedIcon.transform.localPosition);
+        }
+
+        UpdateIncidentUI("Car Crash", true);
     }
 
     void ResumeCars()
@@ -131,6 +174,8 @@ public class GameManager : MonoBehaviour
             Destroy(spawnedSmoke);
             spawnedSmoke = null;
         }
+
+        if (spawnedIcon != null) { Destroy(spawnedIcon); spawnedIcon = null; }
 
         Debug.Log("Car repaired, moving again!");
     }
@@ -241,6 +286,7 @@ public class GameManager : MonoBehaviour
         currentAudio.Play();
         repairButtonCanvas.SetActive(true);
         SetNotification(currentIncidentType + " at " + currentBuilding.name + "!\nClick Repair to fix.");
+        UpdateIncidentUI(currentIncidentType, true);
         Debug.Log("Incident " + currentIncident + ": " + currentIncidentType + " on " + currentBuilding.name);
     }
 
@@ -265,8 +311,11 @@ public class GameManager : MonoBehaviour
             SetNotification(currentIncidentType + " at " + currentBuilding.name + " Resolved!");
         }
 
+        solvedCount++;
+        UpdateSolvedUI();
+        UpdateIncidentUI("--", false);
         Debug.Log("Incident " + currentIncident + " resolved!");
-        float delay = Random.Range(3f, 8f);
+        float delay = Random.Range(1f, 3f);
         Invoke(nameof(TriggerRandomIncident), delay);
     }
 
@@ -276,6 +325,35 @@ public class GameManager : MonoBehaviour
     {
         if (notificationText != null)
             notificationText.text = message;
+    }
+
+    void UpdateIncidentUI(string incidentType, bool active)
+    {
+        if (incidentTypeText != null)
+        {
+            incidentTypeText.text = active
+                ? "Current Incident: " + incidentType
+                : "No Active Incident";
+            incidentTypeText.color = active ? GetIncidentColor(incidentType) : Color.white;
+        }
+    }
+
+    Color GetIncidentColor(string type)
+    {
+        switch (type)
+        {
+            case "Fire":        return new Color(1f, 0.35f, 0f);
+            case "Electricity": return new Color(1f, 0.9f, 0f);
+            case "Flood":       return new Color(0.2f, 0.6f, 1f);
+            case "Car Crash":   return new Color(1f, 0.2f, 0.2f);
+            default:            return Color.white;
+        }
+    }
+
+    void UpdateSolvedUI()
+    {
+        if (solvedCountText != null)
+            solvedCountText.text = "Incidents Solved: " + solvedCount;
     }
 
     AudioSource CreateAudio(AudioClip clip)
