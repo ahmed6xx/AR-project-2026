@@ -11320,7 +11320,6 @@ GameObject:
   - component: {fileID: 1143550993}
   - component: {fileID: 1143550992}
   - component: {fileID: 1143550994}
-  - component: {fileID: 1143550995}
   m_Layer: 0
   m_Name: ImageTarget
   m_TagString: Untagged
@@ -11415,7 +11414,7 @@ MonoBehaviour:
   mMotionHint: 1
   mTrackingOptimization: 0
   mTrackingOptimizationNeedsUpgrade: 0
-  mPreview: {fileID: 1143550995}
+  mPreview: {fileID: 0}
 --- !u!114 &1143550994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11428,25 +11427,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7c0725fd95cbe04f912a89c2f73dbed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MarkerFound
---- !u!114 &1143550995
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1143550990}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1778676317, guid: 8a9a760f95896c34689febc965510927, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Vuforia.Unity.Engine.dll::Vuforia.ImageTargetPreview
-  mObserverBehaviour: {fileID: 1143550993}
-  mHiddenRoot: {fileID: 0}
-  mTargetName: pexels-ohlin-10552200
-  mDatasetName: 
-  mCastedBehaviour: {fileID: 1143550993}
-  mMeshFilter: {fileID: 0}
-  mMeshRenderer: {fileID: 0}
 --- !u!1001 &1145562345
 PrefabInstance:
   m_ObjectHideFlags: 0

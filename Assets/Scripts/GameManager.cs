@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour
     [Header("Minigames")]
     public WireMinigame wireMinigame;
     public ValveMinigame valveMinigame;
+    public FireExtinguisherMinigame fireMinigame;
 
     // Internal
     private int currentIncident = 0;
@@ -323,6 +324,15 @@ public class GameManager : MonoBehaviour
                 return;
             }
         }
+           if (currentIncidentType == "Fire")
+    {
+        if (fireMinigame != null)
+        {
+            fireMinigame.OpenMinigame();
+            repairButtonCanvas.SetActive(false);
+            return;
+        }
+    }
 
         ResolveCurrentIncident();
     }
