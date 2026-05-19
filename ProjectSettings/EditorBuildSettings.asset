@@ -11,8 +11,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/VuforiaScene.unity
     guid: 05882d6854cd22542887e89db4c3d6cb
-  - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: e8e1fd1e0509fa142945f3fb3fb9fe98, type: 2}
