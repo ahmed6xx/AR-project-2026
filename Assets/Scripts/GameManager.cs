@@ -42,6 +42,10 @@ public class GameManager : MonoBehaviour
     [Header("Marker")]
     public ObserverBehaviour imageTarget;
 
+    [Header("Minigames")]
+    public WireMinigame wireMinigame;
+    public ValveMinigame valveMinigame;
+
     // Internal
     private int currentIncident = 0;
     private int solvedCount = 0;
@@ -62,6 +66,10 @@ public class GameManager : MonoBehaviour
     private bool carscrashed = false;
     private GameObject crashedCar;
     private GameObject spawnedSmoke;
+
+    // ── GUARD : empêche plusieurs incidents en même temps ──────────
+    private bool incidentActive = false;
+    private bool nextIncidentScheduled = false;
 
     void Start()
     {
@@ -92,8 +100,17 @@ public class GameManager : MonoBehaviour
             markerDetected = true;
             SetNotification("City loaded! Monitoring...");
             ambianceAudio.Play();
-            Invoke(nameof(TriggerRandomIncident), 2f);
+            ScheduleNextIncident(2f);
         }
+    }
+
+    // ─── SCHEDULE (une seule invocation à la fois) ────────────────
+
+    void ScheduleNextIncident(float delay)
+    {
+        if (nextIncidentScheduled) return;   // déjà programmé → on ignore
+        nextIncidentScheduled = true;
+        Invoke(nameof(TriggerRandomIncident), delay);
     }
 
     // ─── CARS ────────────────────────────────────────────────────
@@ -109,26 +126,18 @@ public class GameManager : MonoBehaviour
         Animator anim = crashedCar.GetComponent<Animator>();
         if (anim != null) anim.enabled = false;
 
-        // ── Spawn smoke on crashed car ──
         if (smokeParticle != null)
         {
             if (spawnedSmoke != null) Destroy(spawnedSmoke);
             spawnedSmoke = Instantiate(smokeParticle, crashedCar.transform);
-
-            // ── Adjust smoke position here if needed ──
             spawnedSmoke.transform.localPosition = new Vector3(-0.01762f, 0.0039f, -0.02355f);
             spawnedSmoke.transform.localRotation = Quaternion.Euler(-90f, 0f, 0f);
             spawnedSmoke.transform.localScale = new Vector3(0.0005f, 0.0005f, 0.0005f);
         }
 
-        SetNotification("Car breakdown on the road!\nClick Repair to fix.");
-        Debug.Log("Car broke down: " + crashedCar.name);
-
-        // Play crash sound once
         if (carCrashAudio != null && carCrashSound != null)
             carCrashAudio.PlayOneShot(carCrashSound);
 
-        // Spawn car crash icon above the crashed car (same approach as building icons)
         if (spawnedIcon != null) Destroy(spawnedIcon);
         if (carCrashIcon != null)
         {
@@ -151,11 +160,12 @@ public class GameManager : MonoBehaviour
 
             spawnedIcon.transform.localPosition = new Vector3(carLocalPos.x, carTopY + 0.0001f + Icon_height, carLocalPos.z);
             spawnedIcon.transform.localRotation = Quaternion.Euler(90f, 0f, 180f);
-            spawnedIcon.transform.localScale    = new Vector3(0.00502276f, 0.0001f, 0.00502276f);
-            Debug.Log("Car icon spawned at local pos " + spawnedIcon.transform.localPosition);
+            spawnedIcon.transform.localScale = new Vector3(0.00502276f, 0.0001f, 0.00502276f);
         }
 
+        SetNotification("Car breakdown on the road!\nClick Repair to fix.");
         UpdateIncidentUI("Car Crash", true);
+        Debug.Log("Car broke down: " + crashedCar.name);
     }
 
     void ResumeCars()
@@ -169,12 +179,7 @@ public class GameManager : MonoBehaviour
             crashedCar = null;
         }
 
-        if (spawnedSmoke != null)
-        {
-            Destroy(spawnedSmoke);
-            spawnedSmoke = null;
-        }
-
+        if (spawnedSmoke != null) { Destroy(spawnedSmoke); spawnedSmoke = null; }
         if (spawnedIcon != null) { Destroy(spawnedIcon); spawnedIcon = null; }
 
         Debug.Log("Car repaired, moving again!");
@@ -184,9 +189,19 @@ public class GameManager : MonoBehaviour
 
     void TriggerRandomIncident()
     {
+        nextIncidentScheduled = false;   // le prochain peut maintenant être programmé
+
+        if (incidentActive)
+        {
+            // Un incident est déjà en cours, on réessaie plus tard
+            Debug.LogWarning("TriggerRandomIncident called but incident already active. Retrying...");
+            ScheduleNextIncident(2f);
+            return;
+        }
+
+        incidentActive = true;
         currentIncident++;
 
-        // 25% chance of a car crash incident
         if (!carscrashed && Random.Range(0, 4) == 0)
         {
             currentIncidentType = "CarCrash";
@@ -196,21 +211,17 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        // Pick random building
         int buildingIndex = Random.Range(0, buildings.Length);
         currentBuilding = buildings[buildingIndex];
 
-        // Pick random incident type
         int incidentType = Random.Range(0, 3);
         string[] types = { "Fire", "Electricity", "Flood" };
         currentIncidentType = types[incidentType];
 
-        // Stop previous audio
         fireAudio.Stop();
         electricityAudio.Stop();
         floodAudio.Stop();
 
-        // Pick correct prefabs and audio
         GameObject particlePrefab = null;
         GameObject iconPrefab = null;
 
@@ -233,7 +244,6 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
-        // ── Spawn particle ──
         if (spawnedParticle != null) Destroy(spawnedParticle);
         spawnedParticle = Instantiate(particlePrefab, currentBuilding.transform);
 
@@ -256,9 +266,7 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
-        // ── Spawn icon ──
         if (spawnedIcon != null) Destroy(spawnedIcon);
-
         if (iconPrefab != null)
         {
             Transform targetParent = imageTarget != null ? imageTarget.transform : null;
@@ -296,27 +304,57 @@ public class GameManager : MonoBehaviour
     {
         buttonAudio.PlayOneShot(buttonClickSound);
 
+        if (currentIncidentType == "Electricity")
+        {
+            if (wireMinigame != null)
+            {
+                wireMinigame.OpenMinigame();
+                repairButtonCanvas.SetActive(false);
+                return;
+            }
+        }
+
+        if (currentIncidentType == "Flood")
+        {
+            if (valveMinigame != null)
+            {
+                valveMinigame.OpenMinigame();
+                repairButtonCanvas.SetActive(false);
+                return;
+            }
+        }
+
+        ResolveCurrentIncident();
+    }
+
+    public void ResolveCurrentIncident()
+    {
+        // Annule toute invocation pendante avant d'en programmer une nouvelle
+        CancelInvoke(nameof(TriggerRandomIncident));
+        nextIncidentScheduled = false;
+
         if (currentIncidentType == "CarCrash")
         {
             ResumeCars();
-            repairButtonCanvas.SetActive(false);
             SetNotification("Traffic cleared! Car moving again.");
         }
         else
         {
             if (spawnedParticle != null) Destroy(spawnedParticle);
             if (spawnedIcon != null) Destroy(spawnedIcon);
-            currentAudio.Stop();
-            repairButtonCanvas.SetActive(false);
+            if (currentAudio != null) currentAudio.Stop();
             SetNotification(currentIncidentType + " at " + currentBuilding.name + " Resolved!");
         }
 
+        repairButtonCanvas.SetActive(false);
         solvedCount++;
+        incidentActive = false;   // ← l'incident est terminé
         UpdateSolvedUI();
         UpdateIncidentUI("--", false);
         Debug.Log("Incident " + currentIncident + " resolved!");
-        float delay = Random.Range(1f, 3f);
-        Invoke(nameof(TriggerRandomIncident), delay);
+
+        float delay = Random.Range(3f, 6f);
+        ScheduleNextIncident(delay);
     }
 
     // ─── HELPERS ─────────────────────────────────────────────────
@@ -331,9 +369,7 @@ public class GameManager : MonoBehaviour
     {
         if (incidentTypeText != null)
         {
-            incidentTypeText.text = active
-                ? "Current Incident: " + incidentType
-                : "No Active Incident";
+            incidentTypeText.text = active ? "Current Incident: " + incidentType : "No Active Incident";
             incidentTypeText.color = active ? GetIncidentColor(incidentType) : Color.white;
         }
     }
@@ -342,11 +378,11 @@ public class GameManager : MonoBehaviour
     {
         switch (type)
         {
-            case "Fire":        return new Color(1f, 0.35f, 0f);
+            case "Fire": return new Color(1f, 0.35f, 0f);
             case "Electricity": return new Color(1f, 0.9f, 0f);
-            case "Flood":       return new Color(0.2f, 0.6f, 1f);
-            case "Car Crash":   return new Color(1f, 0.2f, 0.2f);
-            default:            return Color.white;
+            case "Flood": return new Color(0.2f, 0.6f, 1f);
+            case "Car Crash": return new Color(1f, 0.2f, 0.2f);
+            default: return Color.white;
         }
     }
 
