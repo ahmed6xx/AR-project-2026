@@ -5544,13 +5544,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2094392062}
   - {fileID: 1892339994}
   m_Father: {fileID: 1699250364}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 218, y: 20}
+  m_AnchoredPosition: {x: -35, y: 115}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &670684734
@@ -8965,16 +8964,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 940937917}
-  m_LocalRotation: {x: -0, y: -0, z: -0.4634761, w: 0.8861095}
+  m_LocalRotation: {x: -0, y: -0, z: -0.7106708, w: 0.7035247}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2094392062}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -55.223}
+  m_Father: {fileID: 1699250364}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90.579}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -44, y: 8}
+  m_AnchoredPosition: {x: -4, y: 98}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &940937919
@@ -16424,6 +16423,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 940937918}
   - {fileID: 741650000}
   - {fileID: 670684733}
   m_Father: {fileID: 2056433572}
@@ -17736,16 +17736,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1892339993}
-  m_LocalRotation: {x: -0, y: -0, z: -0.26514143, w: 0.96420956}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 670684733}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -30.751}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -239, y: 98}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1892339995
@@ -19163,7 +19163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FireExtinguisherMinigame
   minigamePanel: {fileID: 1699250363}
   extinguisher: {fileID: 670684733}
-  sprayBeam: {fileID: 2094392062}
+  smokeImage: {fileID: 940937918}
   firePoints:
   - {fileID: 1046745429}
   - {fileID: 712048348}
@@ -19172,7 +19172,9 @@ MonoBehaviour:
   instructionText: {fileID: 0}
   progressBar: {fileID: 0}
   horizontalLimit: 350
-  extinguishDelay: 0.4
+  smokeFallSpeed: 400
+  smokeHitRadius: 60
+  smokeSpawnOffsetY: 0
   gameManager: {fileID: 249087620}
 --- !u!1001 &2067527245
 PrefabInstance:
@@ -19643,42 +19645,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8206393780791148591, guid: 90c39d39c7904474ea2554288d4018da, type: 3}
   m_PrefabInstance: {fileID: 2093684594}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2094392061
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2094392062}
-  m_Layer: 5
-  m_Name: Spray_Beam
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &2094392062
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2094392061}
-  m_LocalRotation: {x: -0, y: -0, z: -0.2854818, w: 0.95838416}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 940937918}
-  m_Father: {fileID: 670684733}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -33.175}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -188, y: 35}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &2107175742
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19912,7 +19878,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 63279077931150703, guid: cd7475de4085c034186919d1efe99ad3, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 2.4999695
+      value: 2.4999847
       objectReference: {fileID: 0}
     - target: {fileID: 1277579656620565111, guid: cd7475de4085c034186919d1efe99ad3, type: 3}
       propertyPath: m_AnchorMax.x
